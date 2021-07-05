@@ -7,7 +7,7 @@ conn = sqlite3.connect('data.db')
 cur = conn.cursor()
 
 cur.execute("""CREATE TABLE IF NOT EXISTS usershard(
-   userid INT PRIMARY KEY,
+   userid TEXT PRIMARY KEY,
    strenght INT,
    stealth INT,
    speed INT,
@@ -40,7 +40,9 @@ async def on_message(message):
     if message.content.startswith('?кто лох'):
         await message.channel.send('Саитхи лох')
 
-
+    if message.content.startswitch('?bal'):
+      if message.mentions is None:
+        pass
     if message.content.startswith('?pay'):
         buf = message.content
         ping = message.mentions[0]
