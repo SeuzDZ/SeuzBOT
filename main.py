@@ -117,4 +117,4 @@ async def on_message(message):
             conn.commit()
 
 
-client.run('ODYxMTM3ODM0NTg0OTY1MTMx.YOFbGg.oRg1xGf_G4cFzJgPOv3N7CLRmE8')
+client.run()
