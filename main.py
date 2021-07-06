@@ -9,11 +9,28 @@ cur = conn.cursor()
 cur.execute("""CREATE TABLE IF NOT EXISTS usershard(
    userid TEXT PRIMARY KEY,
    strenght INT,
-   stealth INT,
    speed INT,
    intel INT,
    spell1 INT,
-   spell2 INT
+   spell2 INT,
+   spell3 INT,
+   spell4 INT,
+   spell5 INT,
+   spell6 INT,
+   spell7 INT,
+   spell8 INT,
+   spell9 INT,
+   spell10 INT,
+   spell11 INT,
+   spell12 INT,
+   spell13 INT,
+   spell14 INT,
+   spell15 INT,
+   spell16 INT,
+   spell17 INT,
+   spell18 INT,
+   spell19 INT,
+   spell20 INT
    );
 """)
 conn.commit()
@@ -25,9 +42,8 @@ cur.execute("""CREATE TABLE IF NOT EXISTS balance(
 conn.commit()
 cur.execute("""CREATE TABLE IF NOT EXISTS spells(
    spell TEXT PRIMARY KEY,
-   spellid INT,
-   damage INT,
    mana INT,
+   damage INT,
    speed INT,
    gif TEXT
    );
@@ -50,18 +66,26 @@ async def on_message(message):
         cur.execute("""INSERT INTO balance(userid, bal) VALUES(?, ?);""", (message.author.id, 0))
         conn.commit()
 
-    if message.content.startswith('?кто лох'):
-        await message.channel.send('Саитхи лох')
+    if message.content.startswith('?s'):
+        sp = message.content
+        sp = sp.replace('?s ', '')
+        cur.execute("SELECT * FROM usershard WHERE userid=?;", [(message.author.id)])
+        result = cur.fetchone()[0]
+        if(not (result.count(sp) == 0)):
+            cur.execute("SELECT gif FROM spells WHERE spell=?;", [(sp)])
+            result = cur.fetchone()[0]
+            sp = sp.replace('_',' ')
+            await message.channel.send("Заклинание " + sp + " было использованно. \n Анимация: " + str(result) )
 
-#    if message.content.startswith('?screate'):
-#      if message.author.top_role == message.server:
-#        sp = message.content
-#        sp.replace('?screate ','')
-#        f1, f2, f3, f4 = map(str, sp.split())
-#        f2 = int(f2)
-#        f3 = int(f3)
-#        await message.channel.send('Заклинание с названием ' + f1 + " наносящее " + str(f2) + " урона, требующее " + str(f3) + "маны. /n С анимацией :" + f4)
 
+    if message.content.startswith('?screate'):
+      if message.author.top_role.id == 861130313169633300:
+        sp = message.content
+        sp = sp.replace('?screate ','')
+        f = sp.split()
+        await message.channel.send('Заклинание с названием ' + f[0] + " наносящее " + f[1] + " урона, требующее " + f[2] + " маны и требующее " + f[3] +" скорости. \n С анимацией : " + f[4])
+        cur.execute("INSERT INTO spells(spell, damage , mana, speed, gif) VALUES (?, ?, ?, ?, ?)", (f[0], int(f[1]), int(f[2]), int(f[3]), f[4]))
+        conn.commit()
 
     if message.content.startswith('?bal'):
       if message.mentions == []:
@@ -93,4 +117,4 @@ async def on_message(message):
             conn.commit()
 
 
-client.run(os.getenv('TOKEN'))
+client.run('ODYxMTM3ODM0NTg0OTY1MTMx.YOFbGg.oRg1xGf_G4cFzJgPOv3N7CLRmE8')
