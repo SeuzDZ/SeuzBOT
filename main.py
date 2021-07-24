@@ -2,6 +2,7 @@ import discord
 import os
 import sqlite3
 
+yes = emoji()
 client = discord.Client()
 conn = sqlite3.connect('data.db')
 cur = conn.cursor()
@@ -58,8 +59,10 @@ async def on_ready():
 @client.event
 async def on_message(message):
     if message.author == client.user:
-        return
-
+        if (message.content.startswith("Бой:")):
+            client.add_reactoin(message, emoji.name(':white_check_mark:'))
+        else:
+            pass
 
 
     if (message.channel.id == 861135728574201857):
